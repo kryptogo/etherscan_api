@@ -247,7 +247,7 @@ void main() {
           data:
               '0x70a08231000000000000000000000000e16359506c028e51f16be38986ec5746251e9724',
         );
-        
+
         await res.then((res) {
           expect(res, isNot(EtherScanRpcResponseModel.empty()));
         });
@@ -286,6 +286,7 @@ void main() {
         var res = api.estimateGas(
           from: '0xdf4221b931b6ad4f4f221e2eb03913bd4368d0ba',
           to: '0x109aa384b8786e55abfa1f0ac6cb0561e0a06e94',
+          data: null,
         );
 
         await res.then((res) {
