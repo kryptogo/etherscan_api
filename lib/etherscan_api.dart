@@ -1,6 +1,7 @@
 library etherscan_api;
 
 export 'src/etherscan_api.dart';
+export 'src/models/models.dart';
 export 'src/core/apis/log.dart';
 export 'src/core/apis/proxy.dart';
 export 'src/core/apis/block.dart';
