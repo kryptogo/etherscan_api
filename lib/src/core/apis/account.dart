@@ -1,6 +1,7 @@
 import 'package:etherscan_api/src/etherscan_api.dart';
 import 'package:etherscan_api/src/core/helper/get_request.dart';
 import 'package:etherscan_api/src/models/models.dart';
+import 'package:flutter/foundation.dart';
 
 extension EthAccount on EtherscanAPI {
   /// Returns the amount of Tokens a specific account owns.
@@ -147,7 +148,7 @@ extension EthAccount on EtherscanAPI {
 
     return (await get(query)).fold(
       (l) => EtherScanTxInternalModel.empty(),
-      (r) => EtherScanTxInternalModel.fromJson(r),
+      (r) async => await compute(_computeEtherScanTxInternalModel, r),
     );
   }
 
@@ -203,7 +204,7 @@ extension EthAccount on EtherscanAPI {
 
     return (await get(query)).fold(
       (l) => EtherScanTxListModel.empty(),
-      (r) => EtherScanTxListModel.fromJson(r),
+      (r) async => await compute(_computeEtherScanTxListModel, r),
     );
   }
 
@@ -296,7 +297,7 @@ extension EthAccount on EtherscanAPI {
 
     return (await get(query)).fold(
       (l) => EtherScanMintedTokenTxModel.empty(),
-      (r) => EtherScanMintedTokenTxModel.fromJson(r),
+      (r) async => await compute(_computeEtherScanMintedTokenTxModel, r),
     );
   }
 
@@ -361,4 +362,18 @@ extension EthAccount on EtherscanAPI {
       (r) => EtherscanTokenFftxModel.fromJson(r),
     );
   }
+}
+
+Future<EtherScanTxListModel> _computeEtherScanTxListModel(String s) async {
+  return EtherScanTxListModel.fromJson(s);
+}
+
+Future<EtherScanTxInternalModel> _computeEtherScanTxInternalModel(
+    String s) async {
+  return EtherScanTxInternalModel.fromJson(s);
+}
+
+Future<EtherScanMintedTokenTxModel> _computeEtherScanMintedTokenTxModel(
+    String s) async {
+  return EtherScanMintedTokenTxModel.fromJson(s);
 }
