@@ -113,8 +113,8 @@ class EtherScanTxByHashModelResult with EquatableMixin {
     String? s,
   }) {
     return EtherScanTxByHashModelResult(
-      blockHash: blockHash ?? this.blockHash,
-      blockNumber: blockNumber ?? this.blockNumber,
+      blockHash: blockHash ?? this.blockHash ?? "",
+      blockNumber: blockNumber ?? this.blockNumber ?? "",
       from: from ?? this.from,
       gas: gas ?? this.gas,
       gasPrice: gasPrice ?? this.gasPrice,
@@ -122,7 +122,7 @@ class EtherScanTxByHashModelResult with EquatableMixin {
       input: input ?? this.input,
       nonce: nonce ?? this.nonce,
       to: to ?? this.to,
-      transactionIndex: transactionIndex ?? this.transactionIndex,
+      transactionIndex: transactionIndex ?? this.transactionIndex ?? "",
       value: value ?? this.value,
       type: type ?? this.type,
       v: v ?? this.v,
