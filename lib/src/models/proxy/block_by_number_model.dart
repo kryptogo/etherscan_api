@@ -228,8 +228,8 @@ class EtherScanBlockNumberResult with EquatableMixin {
               (map['transactions'] ?? [])?.map<
                       Either<EtherScanBlockNumberResultTransaction, String>>(
                   (x) => (x is String
-                      ? Right(x)
-                      : Left(
+                      ? Right<EtherScanBlockNumberResultTransaction, String>(x)
+                      : Left<EtherScanBlockNumberResultTransaction, String>(
                           EtherScanBlockNumberResultTransaction.fromMap(x))))),
       transactionsRoot: map['transactionsRoot'],
       uncles: List<dynamic>.from(map['uncles']),
