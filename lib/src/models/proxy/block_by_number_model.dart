@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 class EtherScanBlockByNumberModel with EquatableMixin {
@@ -78,7 +79,8 @@ class EtherScanBlockNumberResult with EquatableMixin {
   final String stateRoot;
   final String timestamp;
   final String? totalDifficulty;
-  final List<EtherScanBlockNumberResultTransaction>? transactions;
+  final List<Either<EtherScanBlockNumberResultTransaction, String>>?
+      transactions;
   final String transactionsRoot;
   final List<dynamic> uncles;
 
@@ -123,7 +125,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
     String? stateRoot,
     String? timestamp,
     String? totalDifficulty,
-    List<EtherScanBlockNumberResultTransaction>? transactions,
+    List<Either<EtherScanBlockNumberResultTransaction, String>>? transactions,
     String? transactionsRoot,
     List<dynamic>? uncles,
   }) {
@@ -170,7 +172,8 @@ class EtherScanBlockNumberResult with EquatableMixin {
       'stateRoot': stateRoot,
       'timestamp': timestamp,
       'totalDifficulty': totalDifficulty,
-      'transactions': transactions?.map((x) => x.toMap()).toList(),
+      'transactions':
+          transactions?.map((x) => x.fold((l) => l.toMap(), (r) => r)).toList(),
       'transactionsRoot': transactionsRoot,
       'uncles': uncles,
     };
@@ -220,9 +223,13 @@ class EtherScanBlockNumberResult with EquatableMixin {
       stateRoot: map['stateRoot'],
       timestamp: map['timestamp'],
       totalDifficulty: map['totalDifficulty'],
-      transactions: List<EtherScanBlockNumberResultTransaction>.from(
-          (map['transactions'] ?? [])
-              ?.map((x) => EtherScanBlockNumberResultTransaction.fromMap(x))),
+      transactions:
+          List<Either<EtherScanBlockNumberResultTransaction, String>>.from(
+              (map['transactions'] ?? [])
+                  ?.map<Either<EtherScanBlockNumberResultTransaction, String>>(
+                      (x) => (x is String
+                          ? x
+                          : EtherScanBlockNumberResultTransaction.fromMap(x)))),
       transactionsRoot: map['transactionsRoot'],
       uncles: List<dynamic>.from(map['uncles']),
     );
