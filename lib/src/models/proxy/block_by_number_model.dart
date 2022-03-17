@@ -225,11 +225,12 @@ class EtherScanBlockNumberResult with EquatableMixin {
       totalDifficulty: map['totalDifficulty'],
       transactions:
           List<Either<EtherScanBlockNumberResultTransaction, String>>.from(
-              (map['transactions'] ?? [])
-                  ?.map<Either<EtherScanBlockNumberResultTransaction, String>>(
-                      (x) => (x is String
-                          ? x
-                          : EtherScanBlockNumberResultTransaction.fromMap(x)))),
+              (map['transactions'] ?? [])?.map<
+                      Either<EtherScanBlockNumberResultTransaction, String>>(
+                  (x) => (x is String
+                      ? Right(x)
+                      : Left(
+                          EtherScanBlockNumberResultTransaction.fromMap(x))))),
       transactionsRoot: map['transactionsRoot'],
       uncles: List<dynamic>.from(map['uncles']),
     );
