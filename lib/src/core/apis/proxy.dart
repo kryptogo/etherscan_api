@@ -470,6 +470,7 @@ extension EthProxy on EtherscanAPI {
     required String? to,
     required String? from,
     required String? data,
+    String? value,
   }) async {
     const module = 'proxy';
     const action = 'eth_estimateGas';
@@ -481,6 +482,7 @@ extension EthProxy on EtherscanAPI {
       'to': to,
       'from': from,
       'data': data,
+      'value': value,
     };
     return (await get(query)).fold(
       (l) => EtherScanRpcResponseModel.empty(),
