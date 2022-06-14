@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:etherscan_api/src/etherscan_api.dart';
 import 'package:etherscan_api/src/core/helper/get_request.dart';
 import 'package:etherscan_api/src/models/models.dart';
@@ -202,6 +204,16 @@ extension EthAccount on EtherscanAPI {
       'apiKey': apiKey
     };
 
+    if (chain == EthChain.kcc) {
+      debugPrint('$chain');
+      return (await getWithPath(
+              '/vipapi/kcs/address/normal/$address/$page/$offset?apikey=$apiKey'))
+          .fold(
+        (l) => EtherScanTxListModel.empty(),
+        (r) async => await compute(_computeKccEtherScanTxListModel, r),
+      );
+    }
+
     return (await get(query)).fold(
       (l) => EtherScanTxListModel.empty(),
       (r) async => await compute(_computeEtherScanTxListModel, r),
@@ -364,8 +376,16 @@ extension EthAccount on EtherscanAPI {
   }
 }
 
-Future<EtherScanTxListModel> _computeEtherScanTxListModel(String s) async {
+Future<EtherScanTxListModel> _computeEtherScanTxListModel(
+  String s,
+) async {
   return EtherScanTxListModel.fromJson(s);
+}
+
+Future<EtherScanTxListModel> _computeKccEtherScanTxListModel(
+  String s,
+) async {
+  return EtherScanTxListModel.kccFromJson(s);
 }
 
 Future<EtherScanTxInternalModel> _computeEtherScanTxInternalModel(

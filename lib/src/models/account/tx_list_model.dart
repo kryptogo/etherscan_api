@@ -49,10 +49,22 @@ class EtherScanTxListModel with EquatableMixin {
     );
   }
 
+  factory EtherScanTxListModel.kccFromMap(Map<String, dynamic> map) {
+    return EtherScanTxListModel(
+      status: map['code'].toString(),
+      message: map['msg'],
+      result: List<EtherScanTxResult>.from(
+          map['data']?.map((x) => EtherScanTxResult.fromKccMap(x))),
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory EtherScanTxListModel.fromJson(String source) =>
       EtherScanTxListModel.fromMap(json.decode(source));
+
+  factory EtherScanTxListModel.kccFromJson(String source) =>
+      EtherScanTxListModel.kccFromMap(json.decode(source));
 
   @override
   bool? get stringify => true;
@@ -189,10 +201,38 @@ class EtherScanTxResult with EquatableMixin {
     );
   }
 
+  factory EtherScanTxResult.fromKccMap(Map<String, dynamic> map) {
+    return EtherScanTxResult(
+      blockNumber: map['block_no'].toString(),
+      timeStamp: map['time'].toString(),
+      hash: map['txid'],
+      nonce: map['nonce'].toString(),
+      blockHash: map['blockHash'].toString(), // kcc has no block hash
+      transactionIndex: map['index'].toString(),
+      from: map['from'],
+      to: map['to'],
+      value: map['value'],
+      gas: map['gasUsed'].toString(),
+      gasPrice: map['gasPrice'].toString(),
+      isError: map['receiptErr'] ?? '0',
+      txreceipt_status: map['receiptErr'] ?? '0', // kcc has no txreceipt_status
+      input: map['input'].toString(), // kcc has no input
+      contractAddress: map['toIsContract'] == 1 ? map['to'] : '',
+      cumulativeGasUsed:
+          map['cumulativeGasUsed'].toString(), // kcc has no txreceipt_status
+      gasUsed: map['gasUsed'].toString(),
+      confirmations:
+          map['confirmations'].toString(), // kcc has no txreceipt_status
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory EtherScanTxResult.fromJson(String source) =>
       EtherScanTxResult.fromMap(json.decode(source));
+
+  factory EtherScanTxResult.fromKccJson(String source) =>
+      EtherScanTxResult.fromKccMap(json.decode(source));
 
   @override
   bool? get stringify => true;
