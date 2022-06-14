@@ -8,9 +8,13 @@ void main() {
       apiKey: 'PUEGihB4WBA8RVfuSZPI',
       chain: EthChain.kcc,
     );
+
     test('.balance() returns testnet balance data', () async {
       final bal = await eth.txList(
-          address: '0xbd451b952de19f2c7ba2c8c516b0740484e953b2');
+        address: '0x0a7a51B8887ca23B13d692eC8Cb1CCa4100eda4B',
+        page: 1,
+        offset: 50,
+      );
       print('======={bal.length} : ${bal.result?.length}=========');
       expect(bal, isNot(EtherScanBalanceModel.empty()));
     });

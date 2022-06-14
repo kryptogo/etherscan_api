@@ -206,6 +206,7 @@ extension EthAccount on EtherscanAPI {
 
     if (chain == EthChain.kcc) {
       debugPrint('$chain');
+      address = address!.toLowerCase();
       return (await getWithPath(
               '/vipapi/kcs/address/normal/$address/$page/$offset?apikey=$apiKey'))
           .fold(
