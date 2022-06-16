@@ -47,11 +47,21 @@ class EtherScanRpcResponseModel with EquatableMixin {
       result: map['result'],
     );
   }
+  factory EtherScanRpcResponseModel.fromKccMap(Map<String, dynamic> map) {
+    return EtherScanRpcResponseModel(
+      jsonrpc: map['jsonrpc'].toString(),
+      id: map['id'] ?? 0,
+      result: map['result'],
+    );
+  }
 
   String toJson() => json.encode(toMap());
 
   factory EtherScanRpcResponseModel.fromJson(String source) =>
       EtherScanRpcResponseModel.fromMap(json.decode(source));
+
+  factory EtherScanRpcResponseModel.fromKccJson(String source) =>
+      EtherScanRpcResponseModel.fromKccMap(json.decode(source));
 
   @override
   bool get stringify => true;

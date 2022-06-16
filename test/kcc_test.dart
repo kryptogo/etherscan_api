@@ -3,13 +3,13 @@ import 'package:etherscan_api/src/models/models.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('testnet balance', () {
+  group('kcc net', () {
     final eth = EtherscanAPI(
       apiKey: 'PUEGihB4WBA8RVfuSZPI',
       chain: EthChain.kcc,
     );
 
-    test('.balance() returns testnet balance data', () async {
+    test('.txList() returns txList', () async {
       final bal = await eth.txList(
         address: '0x0a7a51B8887ca23B13d692eC8Cb1CCa4100eda4B',
         page: 1,
@@ -17,6 +17,12 @@ void main() {
       );
       print('======={bal.length} : ${bal.result?.length}=========');
       expect(bal, isNot(EtherScanBalanceModel.empty()));
+    });
+
+    test('.blockNumber() returns blockNumber', () async {
+      final bal = await eth.blockNumber();
+      print('======={blockNumber} : $bal=========');
+      expect(bal, isNot(EtherScanRpcResponseModel.empty()));
     });
   });
 }
