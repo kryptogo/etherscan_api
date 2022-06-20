@@ -15,14 +15,11 @@ void main() {
         page: 1,
         offset: 50,
       );
-      print(
-          '=======callTransfer : ${bal.result![0].callTransfer.isEmpty}=========');
       expect(bal, isNot(EtherScanBalanceModel.empty()));
     });
 
     test('.blockNumber() returns blockNumber', () async {
       final bal = await eth.blockNumber();
-      print('======={blockNumber} : $bal=========');
       expect(bal, isNot(EtherScanRpcResponseModel.empty()));
     });
   });
