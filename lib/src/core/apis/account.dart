@@ -204,20 +204,45 @@ extension EthAccount on EtherscanAPI {
       'apiKey': apiKey
     };
 
-    if (chain == EthChain.kcc) {
-      debugPrint('$chain');
-      address = address!.toLowerCase();
-      return (await getWithPath(
-              '/vipapi/kcs/address/normal/$address/$page/$offset?apikey=$apiKey'))
-          .fold(
-        (l) => EtherScanTxListModel.empty(),
-        (r) async => await compute(_computeKccEtherScanTxListModel, r),
-      );
-    }
-
     return (await get(query)).fold(
       (l) => EtherScanTxListModel.empty(),
       (r) async => await compute(_computeEtherScanTxListModel, r),
+    );
+  }
+
+  Future<EtherScanKccTxListModel> kccTxList({
+    required String? address,
+    Object startblock = 0,
+    String? endblock,
+    int page = 1,
+    int offset = 100,
+    EtherSort sort = EtherSort.asc,
+  }) async {
+    const module = 'account';
+    const action = 'txlist';
+
+    if (endblock != null) {
+      endblock = 'latest';
+    }
+
+    final query = {
+      'module': module,
+      'action': action,
+      'startblock': startblock,
+      'endblock': endblock,
+      'page': page,
+      'offset': offset,
+      'sort': sort.str,
+      'address': address,
+      'apiKey': apiKey
+    };
+
+    address = address!.toLowerCase();
+    return (await getWithPath(
+            '/vipapi/kcs/address/normal/$address/$page/$offset?apikey=$apiKey'))
+        .fold(
+      (l) => EtherScanKccTxListModel.empty(),
+      (r) async => await compute(_computeKccEtherScanTxListModel, r),
     );
   }
 
@@ -383,10 +408,10 @@ Future<EtherScanTxListModel> _computeEtherScanTxListModel(
   return EtherScanTxListModel.fromJson(s);
 }
 
-Future<EtherScanTxListModel> _computeKccEtherScanTxListModel(
+Future<EtherScanKccTxListModel> _computeKccEtherScanTxListModel(
   String s,
 ) async {
-  return EtherScanTxListModel.kccFromJson(s);
+  return EtherScanKccTxListModel.kccFromJson(s);
 }
 
 Future<EtherScanTxInternalModel> _computeEtherScanTxInternalModel(

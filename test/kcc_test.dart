@@ -10,12 +10,13 @@ void main() {
     );
 
     test('.txList() returns txList', () async {
-      final bal = await eth.txList(
+      final bal = await eth.kccTxList(
         address: '0x0a7a51B8887ca23B13d692eC8Cb1CCa4100eda4B',
         page: 1,
         offset: 50,
       );
-      print('======={bal.length} : ${bal.result?.length}=========');
+      print(
+          '=======callTransfer : ${bal.result![0].callTransfer.isEmpty}=========');
       expect(bal, isNot(EtherScanBalanceModel.empty()));
     });
 
