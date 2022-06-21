@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:etherscan_api/src/etherscan_api.dart';
 import 'package:etherscan_api/src/core/helper/get_request.dart';
 import 'package:etherscan_api/src/models/models.dart';
@@ -208,6 +210,42 @@ extension EthAccount on EtherscanAPI {
     );
   }
 
+  Future<EtherScanKccTxListModel> kccTxList({
+    required String? address,
+    Object startblock = 0,
+    String? endblock,
+    int page = 1,
+    int offset = 100,
+    EtherSort sort = EtherSort.asc,
+  }) async {
+    const module = 'account';
+    const action = 'txlist';
+
+    if (endblock != null) {
+      endblock = 'latest';
+    }
+
+    final query = {
+      'module': module,
+      'action': action,
+      'startblock': startblock,
+      'endblock': endblock,
+      'page': page,
+      'offset': offset,
+      'sort': sort.str,
+      'address': address,
+      'apiKey': apiKey
+    };
+
+    address = address!.toLowerCase();
+    return (await getWithPath(
+            '/vipapi/kcs/address/normal/$address/$page/$offset?apikey=$apiKey'))
+        .fold(
+      (l) => EtherScanKccTxListModel.empty(),
+      (r) async => await compute(_computeKccEtherScanTxListModel, r),
+    );
+  }
+
   /// Get a list of blocks that a specific account has mineds
   ///
   /// Example
@@ -364,8 +402,16 @@ extension EthAccount on EtherscanAPI {
   }
 }
 
-Future<EtherScanTxListModel> _computeEtherScanTxListModel(String s) async {
+Future<EtherScanTxListModel> _computeEtherScanTxListModel(
+  String s,
+) async {
   return EtherScanTxListModel.fromJson(s);
+}
+
+Future<EtherScanKccTxListModel> _computeKccEtherScanTxListModel(
+  String s,
+) async {
+  return EtherScanKccTxListModel.kccFromJson(s);
 }
 
 Future<EtherScanTxInternalModel> _computeEtherScanTxInternalModel(

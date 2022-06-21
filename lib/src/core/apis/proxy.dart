@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:etherscan_api/src/etherscan_api.dart';
 import 'package:etherscan_api/src/core/helper/get_request.dart';
 import 'package:etherscan_api/src/models/models.dart';
@@ -21,6 +23,17 @@ extension EthProxy on EtherscanAPI {
       'action': action,
       'apiKey': apiKey,
     };
+
+    if (chain == EthChain.kcc) {
+      return (await getWithPath('/vipapi/coin/latest/kcs?apikey=$apiKey')).fold(
+        (l) => EtherScanRpcResponseModel.empty(),
+        (r) {
+          final json = jsonDecode(r);
+          json['result'] = '0x${json['data'].toRadixString(16)}';
+          return EtherScanRpcResponseModel.fromKccMap(json);
+        },
+      );
+    }
 
     return (await get(query)).fold(
       (l) => EtherScanRpcResponseModel.empty(),
