@@ -30,7 +30,7 @@ extension EthProxy on EtherscanAPI {
         (r) {
           final json = jsonDecode(r);
           json['result'] = '0x${json['data'].toRadixString(16)}';
-          return EtherScanRpcResponseModel.fromKccJson(jsonEncode(json));
+          return EtherScanRpcResponseModel.fromKccMap(json);
         },
       );
     }

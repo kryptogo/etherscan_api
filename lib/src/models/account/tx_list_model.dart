@@ -212,8 +212,8 @@ class EtherScanTxResult with EquatableMixin {
       transactionIndex: map['index'].toString(),
       from: map['from'],
       to: map['to'],
-      value: (double.parse((map['value'] ?? '0')) * pow(10, 18))
-          .toInt()
+      value: ((BigInt.tryParse(map['value']) ?? BigInt.zero) *
+              BigInt.from(pow(10, 18)))
           .toString(),
       gas: map['gasUsed'].toString(),
       gasPrice: map['gasPrice'].toString(),
@@ -445,8 +445,8 @@ class EtherScanKccTxResult with EquatableMixin {
       transactionIndex: map['index'].toString(),
       from: map['from'],
       to: map['to'],
-      value: (double.parse((map['value'] ?? '0')) * pow(10, 18))
-          .toInt()
+      value: ((BigInt.tryParse(map['value']) ?? BigInt.zero) *
+              BigInt.from(pow(10, 18)))
           .toString(),
       gas: map['gasUsed'].toString(),
       gasPrice: map['gasPrice'].toString(),
