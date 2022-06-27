@@ -15,6 +15,7 @@ const ETH_API_URLS = {
   'homestead': 'https://api.etherscan.io',
   'polygon': 'https://api.polygonscan.com',
   'kcc': 'https://api.explorer.kcc.io',
+  'arb': 'https://arbiscan.io',
 };
 
 extension GetRequest on EtherscanAPI {

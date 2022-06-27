@@ -23,7 +23,7 @@ extension DescribeEnum on Object {
 }
 
 /// Ethereum chain type
-enum EthChain { mainnet, ropsten, kovan, rinkeby, homestead, polygon, kcc }
+enum EthChain { mainnet, ropsten, kovan, rinkeby, homestead, polygon, kcc, arb }
 
 extension EthChainString on EthChain {
   String get chainName => str;
