@@ -28,5 +28,13 @@ void main() {
       print('=======gasPrice : $gasPrice=========');
       expect(gasPrice, isNot(EtherScanRpcResponseModel.empty()));
     });
+
+    test('.getTransactionByHash() returns txList', () async {
+      final transaction = await eth.getTransactionByHash(
+          txhash:
+              '0xc633e1a472d63872fdb2068632b6823fea0903dc3707ccd2b624aadc96077846');
+      print('=======transaction : $transaction=========');
+      expect(transaction, isNot(EtherScanRpcResponseModel.empty()));
+    });
   });
 }
