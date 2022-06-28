@@ -55,6 +55,14 @@ class EtherScanRpcResponseModel with EquatableMixin {
     );
   }
 
+  factory EtherScanRpcResponseModel.fromArbitrumMap(Map<String, dynamic> map) {
+    return EtherScanRpcResponseModel(
+      jsonrpc: '',
+      id: map['id'] ?? 0,
+      result: map['result'],
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory EtherScanRpcResponseModel.fromJson(String source) =>
@@ -62,6 +70,9 @@ class EtherScanRpcResponseModel with EquatableMixin {
 
   factory EtherScanRpcResponseModel.fromKccJson(String source) =>
       EtherScanRpcResponseModel.fromKccMap(json.decode(source));
+
+  factory EtherScanRpcResponseModel.fromArbitrumJson(String source) =>
+      EtherScanRpcResponseModel.fromArbitrumMap(json.decode(source));
 
   @override
   bool get stringify => true;

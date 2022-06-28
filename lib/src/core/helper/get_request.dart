@@ -5,8 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:etherscan_api/etherscan_api.dart';
 import 'package:etherscan_api/src/core/utils/logger.dart';
 
-import '../commons/failure.dart';
-
 const ETH_API_URLS = {
   'mainnet': 'https://api.etherscan.io',
   'ropsten': 'https://api-ropsten.etherscan.io',
@@ -15,7 +13,7 @@ const ETH_API_URLS = {
   'homestead': 'https://api.etherscan.io',
   'polygon': 'https://api.polygonscan.com',
   'kcc': 'https://api.explorer.kcc.io',
-  'arb': 'https://arbiscan.io',
+  'arbitrum': 'https://api.arbiscan.io',
 };
 
 extension GetRequest on EtherscanAPI {
