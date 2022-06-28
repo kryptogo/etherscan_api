@@ -35,6 +35,21 @@ extension EthProxy on EtherscanAPI {
       );
     }
 
+    if (chain == EthChain.arbitrum) {
+      query = {
+        'module': 'block',
+        'action': 'getblocknobytime',
+        'apiKey': apiKey,
+        'timestamp': DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000,
+        'closest': 'before',
+      };
+
+      return (await get(query)).fold(
+        (l) => EtherScanRpcResponseModel.empty(),
+        (r) => EtherScanRpcResponseModel.fromArbitrumJson(r),
+      );
+    }
+
     return (await get(query)).fold(
       (l) => EtherScanRpcResponseModel.empty(),
       (r) => EtherScanRpcResponseModel.fromJson(r),
