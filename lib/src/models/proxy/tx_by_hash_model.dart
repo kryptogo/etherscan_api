@@ -184,7 +184,7 @@ class EtherScanTxByHashModelResult with EquatableMixin {
       to: map['to'],
       transactionIndex: map['transactionIndex'],
       value: map['value'],
-      type: map['type'] ?? '',
+      type: map['type'] ?? '0x0',
       v: map['v'],
       r: map['r'],
       s: map['s'],
