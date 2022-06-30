@@ -41,7 +41,7 @@ extension GetRequest on EtherscanAPI {
       final res = await client.get(path, queryParameters: query);
 
       /// Return Error if data is null
-      if (res.data == null) {
+      if (res.data == null || res.data['code'] != 1) {
         if (enableLogs == true) {
           // Log error response
           print('Error: Null Response\n');
