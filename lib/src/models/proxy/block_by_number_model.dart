@@ -66,6 +66,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
   final String extraData;
   final String gasLimit;
   final String gasUsed;
+  final String? baseFeePerGas;
   final String hash;
   final String logsBloom;
   final String miner;
@@ -89,6 +90,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
     required this.extraData,
     required this.gasLimit,
     required this.gasUsed,
+    this.baseFeePerGas,
     required this.hash,
     required this.logsBloom,
     required this.miner,
@@ -112,6 +114,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
     String? extraData,
     String? gasLimit,
     String? gasUsed,
+    String? baseFeePerGas,
     String? hash,
     String? logsBloom,
     String? miner,
@@ -134,6 +137,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
       extraData: extraData ?? this.extraData,
       gasLimit: gasLimit ?? this.gasLimit,
       gasUsed: gasUsed ?? this.gasUsed,
+      baseFeePerGas: baseFeePerGas ?? this.baseFeePerGas,
       hash: hash ?? this.hash,
       logsBloom: logsBloom ?? this.logsBloom,
       miner: miner ?? this.miner,
@@ -159,6 +163,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
       'extraData': extraData,
       'gasLimit': gasLimit,
       'gasUsed': gasUsed,
+      'baseFeePerGas': baseFeePerGas,
       'hash': hash,
       'logsBloom': logsBloom,
       'miner': miner,
@@ -185,6 +190,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
       extraData: '',
       gasLimit: '',
       gasUsed: '',
+      baseFeePerGas: '',
       hash: '',
       logsBloom: '',
       miner: '',
@@ -210,6 +216,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
       extraData: map['extraData'],
       gasLimit: map['gasLimit'],
       gasUsed: map['gasUsed'],
+      baseFeePerGas: map['baseFeePerGas'],
       hash: map['hash'],
       logsBloom: map['logsBloom'],
       miner: map['miner'],
@@ -250,6 +257,7 @@ class EtherScanBlockNumberResult with EquatableMixin {
       extraData,
       gasLimit,
       gasUsed,
+      baseFeePerGas ?? '',
       hash,
       logsBloom,
       miner,
