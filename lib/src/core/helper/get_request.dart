@@ -14,6 +14,7 @@ const ETH_API_URLS = {
   'polygon': 'https://api.polygonscan.com',
   'kcc': 'https://api.explorer.kcc.io',
   'arbitrum': 'https://api.arbiscan.io',
+  'ronin': 'https://api.roninchain.com',
 };
 
 extension GetRequest on EtherscanAPI {
@@ -116,6 +117,64 @@ extension GetRequest on EtherscanAPI {
         }
 
         return Left(EtherScanFailure(message: '${res.data}'));
+      }
+
+      if (enableLogs == true) {
+        // Log success response
+        print('response: ${stringifyMessage(res.data)}\n');
+      }
+      return Right(json.encode(res.data));
+    } catch (e) {
+      var msg = e.toString();
+
+      if (enableLogs == true) {
+        /// Log error response
+        print('Error: $msg');
+      }
+      return Left(EtherScanFailure(message: msg));
+    }
+  }
+
+  Future<Either<EtherScanFailure, String>> postRpc<T>(
+    String path, {
+    Map<String, dynamic>? data,
+  }) async {
+    try {
+      if (enableLogs == true) {
+        // Log data response
+        print('api_url: ${chain.chainApiUrl}$path\n');
+        print('query: ${stringifyMessage(data)}\n');
+      }
+
+      /// Dio client
+      final client = Dio(
+        BaseOptions(
+          baseUrl: chain.chainApiUrl,
+          connectTimeout: timeout?.inMilliseconds,
+          responseType: ResponseType.json,
+        ),
+      );
+
+      /// Make Request
+      final res = await client.post(path, data: data);
+
+      /// Return Error if data is null
+      if (res.data == null || res.data == '') {
+        if (enableLogs == true) {
+          // Log error response
+          print('Error: Null Response\n');
+        }
+        return Left(EtherScanFailure(message: 'Null Response'));
+      }
+
+      if ('${res.data}'.contains('error')) {
+        if (enableLogs == true) {
+          // Log error response
+          print('Error: ${res.data['error']}');
+        }
+
+        return Left(
+            EtherScanFailure(message: '${res.data['error']['message']}'));
       }
 
       if (enableLogs == true) {
