@@ -50,6 +50,23 @@ extension EthProxy on EtherscanAPI {
       );
     }
 
+    if (chain == EthChain.ronin) {
+      final data = {
+        'jsonrpc': '2.0',
+        'method': action,
+        'params': [],
+        'id': 83,
+      };
+      return (await postRpc('/rpc', data: data)).fold(
+        (l) {
+          return EtherScanRpcResponseModel.empty();
+        },
+        (r) {
+          return EtherScanRpcResponseModel.fromJson(r);
+        },
+      );
+    }
+
     return (await get(query)).fold(
       (l) => EtherScanRpcResponseModel.empty(),
       (r) => EtherScanRpcResponseModel.fromJson(r),
@@ -80,6 +97,23 @@ extension EthProxy on EtherscanAPI {
       'boolean': isFull ?? false,
       'apiKey': apiKey,
     };
+
+    if (chain == EthChain.ronin) {
+      final data = {
+        'jsonrpc': '2.0',
+        'method': 'eth_getBlockByNumber',
+        'params': [tag, isFull],
+        'id': 1
+      };
+      return (await postRpc('/rpc', data: data)).fold(
+        (l) {
+          return EtherScanBlockByNumberModel.empty();
+        },
+        (r) {
+          return EtherScanBlockByNumberModel.fromJson(r);
+        },
+      );
+    }
 
     return (await get(query)).fold(
       (l) => EtherScanBlockByNumberModel.empty(),
@@ -173,6 +207,23 @@ extension EthProxy on EtherscanAPI {
   }) async {
     const module = 'proxy';
     const action = 'eth_getTransactionByHash';
+
+    if (chain == EthChain.ronin) {
+      final data = {
+        'jsonrpc': '2.0',
+        'method': 'eth_getTransactionByHash',
+        'params': [txhash],
+        'id': 1
+      };
+      return (await postRpc('/rpc', data: data)).fold(
+        (l) {
+          return EtherScanTxByHashModel.empty();
+        },
+        (r) {
+          return EtherScanTxByHashModel.fromJson(r);
+        },
+      );
+    }
 
     Map<String, dynamic>? query = {
       'txhash': txhash,
@@ -465,6 +516,23 @@ extension EthProxy on EtherscanAPI {
   Future<EtherScanRpcResponseModel> gasPrice() async {
     const module = 'proxy';
     const action = 'eth_gasPrice';
+
+    if (chain == EthChain.ronin) {
+      final data = {
+        'jsonrpc': '2.0',
+        'method': action,
+        'params': [],
+        'id': 73,
+      };
+      return (await postRpc('/rpc', data: data)).fold(
+        (l) {
+          return EtherScanRpcResponseModel.empty();
+        },
+        (r) {
+          return EtherScanRpcResponseModel.fromJson(r);
+        },
+      );
+    }
     Map<String, dynamic>? query = {
       'apiKey': apiKey,
       'module': module,
@@ -502,6 +570,45 @@ extension EthProxy on EtherscanAPI {
   }) async {
     const module = 'proxy';
     const action = 'eth_estimateGas';
+
+    if (chain == EthChain.ronin) {
+      final paramsData = {};
+      if (from != null) {
+        paramsData['from'] = from;
+      }
+
+      if (to != null) {
+        paramsData['to'] = to;
+      }
+
+      if (data != null) {
+        paramsData['data'] = data;
+      }
+
+      if (value != null) {
+        paramsData['value'] = value;
+      }
+
+      final params = [];
+      if (paramsData.isNotEmpty) {
+        params.add(paramsData);
+      }
+
+      final postData = {
+        'jsonrpc': '2.0',
+        'method': action,
+        'params': params,
+        'id': 1,
+      };
+      return (await postRpc('/rpc', data: postData)).fold(
+        (l) {
+          return EtherScanRpcResponseModel.empty();
+        },
+        (r) {
+          return EtherScanRpcResponseModel.fromJson(r);
+        },
+      );
+    }
 
     Map<String, dynamic>? query = {
       'apiKey': apiKey,

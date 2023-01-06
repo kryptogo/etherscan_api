@@ -31,7 +31,8 @@ enum EthChain {
   homestead,
   polygon,
   kcc,
-  arbitrum
+  arbitrum,
+  ronin,
 }
 
 extension EthChainString on EthChain {
